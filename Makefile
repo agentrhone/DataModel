@@ -17,6 +17,9 @@ help:
 	@echo "  db-push       - Push Prisma schema to DB"
 	@echo "  db-migrate    - Create/run migration (use: make db-migrate name=init)"
 	@echo "  db-seed       - Seed database"
+	@echo "  etl-woo       - Trigger Woo ETL locally"
+	@echo "  etl-stripe    - Trigger Stripe ETL locally"
+	@echo "  etl-meta      - Trigger Meta ETL locally"
 
 dev:
 	$(PNPM) dev
@@ -58,3 +61,14 @@ db-migrate:
 db-seed:
 	$(PNPM) db:seed
 
+etl-woo:
+	@if [ -z "$$VERCEL_CRON_SECRET" ]; then echo "Set VERCEL_CRON_SECRET in your env"; exit 1; fi; \
+	curl -sS -X POST -H "x-vercel-cron-secret: $$VERCEL_CRON_SECRET" "http://localhost:3000/api/etl/woo?full=1" | jq .
+
+etl-stripe:
+	@if [ -z "$$VERCEL_CRON_SECRET" ]; then echo "Set VERCEL_CRON_SECRET in your env"; exit 1; fi; \
+	curl -sS -X POST -H "x-vercel-cron-secret: $$VERCEL_CRON_SECRET" "http://localhost:3000/api/etl/stripe" | jq .
+
+etl-meta:
+	@if [ -z "$$VERCEL_CRON_SECRET" ]; then echo "Set VERCEL_CRON_SECRET in your env"; exit 1; fi; \
+	curl -sS -X POST -H "x-vercel-cron-secret: $$VERCEL_CRON_SECRET" "http://localhost:3000/api/etl/meta" | jq .
