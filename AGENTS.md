@@ -32,5 +32,6 @@
 
 ## Security & Configuration Tips
 - Env vars: `DATABASE_URL`, `NEXT_PUBLIC_*` (public), `VERCEL_CRON_SECRET` for ETL routes.
+- LLM chat: set `OPENAI_API_KEY` to enable `/chat` with tools that query KPIs.
 - No secrets in repo; use Vercel/Supabase env management. Provide `.env.example`.
 - Nightly ETL via Vercel Cron; guard routes by secret header; log minimal PII.
