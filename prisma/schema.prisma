@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id             String   @id
+  email          String   @unique
+  firstOrderDate DateTime
+  lastOrderDate  DateTime
+  orderCount     Int      @default(0)
+  totalSpent     Decimal  @default(0)
+  totalRefunds   Decimal  @default(0)
+  totalNet       Decimal  @default(0)
+  ltvEstimate    Decimal  @default(0)
+}
+
+model AdSpend {
+  id          String  @id @default(cuid())
+  date        DateTime
+  platform    String
+  campaign    String?
+  spend       Decimal
+  impressions Int?
+  clicks      Int?
+
+  @@index([date])
+}
+
+model ShippingCost {
+  orderId  String  @id
+  cost     Decimal
+  provider String?
+}
+
+model CouponUsage {
+  id            String  @id @default(cuid())
+  orderId       String
+  code          String
+  discount      Decimal
+  customerEmail String?
+}
+
+model Order {
+  id            String   @id
+  customerEmail String?
+  createdAt     DateTime @default(now())
+  grossTotal    Decimal
+  netTotal      Decimal?
+  refundTotal   Decimal  @default(0)
+  feesTotal     Decimal  @default(0)
+
+  @@index([createdAt])
+}
+
