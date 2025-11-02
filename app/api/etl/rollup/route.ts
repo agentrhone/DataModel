@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function POST(req: Request) {
   const secret = process.env.VERCEL_CRON_SECRET;
   if (secret && req.headers.get("x-vercel-cron-secret") !== secret) {
@@ -11,4 +15,3 @@ export async function POST(req: Request) {
   const aov = orders._count.id ? (Number(orders._sum.grossTotal ?? 0) / orders._count.id) : 0;
   return NextResponse.json({ ok: true, aov });
 }
-

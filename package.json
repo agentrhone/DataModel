@@ -14,7 +14,8 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.19.0",
@@ -42,4 +43,3 @@
     "vitest": "^1.6.0"
   }
 }
-
